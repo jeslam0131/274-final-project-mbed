@@ -13,10 +13,10 @@ Serial pc(USBTX, USBRX);    // USB Serial Terminal
 ExperimentServer server;    // Object that lets us communicate with MATLAB
 Timer t;                    // Timer to measure elapsed time of experiment
 
-QEI encoderA(PE_9,PE_11, NC, 1200, QEI::X4_ENCODING);  // MOTOR A ENCODER (no index, 1200 counts/rev, Quadrature encoding)
-QEI encoderB(PA_5, PB_3, NC, 1200, QEI::X4_ENCODING);  // MOTOR B ENCODER (no index, 1200 counts/rev, Quadrature encoding)
-QEI encoderC(PC_6, PC_7, NC, 1200, QEI::X4_ENCODING);  // MOTOR C ENCODER (no index, 1200 counts/rev, Quadrature encoding)
-QEI encoderD(PD_12, PD_13, NC, 1200, QEI::X4_ENCODING);// MOTOR D ENCODER (no index, 1200 counts/rev, Quadrature encoding)
+QEI encoderA( PE_9, PE_11, NC, 1200, QEI::X4_ENCODING);  // MOTOR A ENCODER (no index, 1200 counts/rev, Quadrature encoding)
+QEI encoderB( PA_5,  PB_3, NC, 1200, QEI::X4_ENCODING);  // MOTOR B ENCODER (no index, 1200 counts/rev, Quadrature encoding)
+QEI encoderC( PC_6,  PC_7, NC, 1200, QEI::X4_ENCODING);  // MOTOR C ENCODER (no index, 1200 counts/rev, Quadrature encoding)
+QEI encoderD(PD_12, PD_13, NC, 1200, QEI::X4_ENCODING); // MOTOR D ENCODER (no index, 1200 counts/rev, Quadrature encoding)
 
 MotorShield motorShield(12000); //initialize the motor shield with a period of 12000 clock ticks or ~20kHZ
 
@@ -30,10 +30,7 @@ int main (void) {
     pc.printf("%f",input_params[0]);
     
     while(1) {
-        if (server.getParams(input_params,NUM_INPUTS)) {
-            float d1   = input_params[0]; // Duty cycle for first second
-            float d2   = input_params[1]; // Duty cycle for second second
-
+        if (server.getParams(input_params, NUM_INPUTS)) {
             // Setup experiment
             t.reset();
             t.start();
@@ -47,8 +44,12 @@ int main (void) {
             //use the motor shield as follows:
             //motorShield.motorAWrite(DUTY CYCLE, DIRECTION), DIRECTION = 0 is forward, DIRECTION =1 is backwards.
              
+            // Unpack inputs
+            float d1   = input_params[0]; // Duty cycle for first second
+            float d2   = input_params[1]; // Duty cycle for second second
+
             // Run experiment
-            while( t.read() < 2 ) {
+            while (t.read() < 2) {
                 // Perform control loop logic
                 if (t.read() < 1)
                     motorShield.motorAWrite(d1, 0); //run motor A at "v1" duty cycle and in the forward direction 
