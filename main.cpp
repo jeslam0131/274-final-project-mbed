@@ -62,7 +62,7 @@ int main (void) {
                 output_data[0] = t.read();
                 output_data[1] = 0; // MODIFY THIS: Copy in your equation for encoder angle from part 1
                 output_data[2] = 0; // MODIFY THIS: Copy in your equation for encoder velocity from part 1
-                output_data[3] = -motorShield.readCurrentA()*(30.0/65536.0)-15;
+                output_data[3] = -(motorShield.readCurrentA()*(30.0/65536.0)-15);
                 
                 // Send data to MATLAB
                 server.sendData(output_data,NUM_OUTPUTS);
