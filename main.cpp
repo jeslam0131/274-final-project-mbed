@@ -25,6 +25,7 @@ float total_error=0;
 float volt = 0;
 float duty = 0;
 
+// Errors here
 Serial pc(USBTX, USBRX);    // USB Serial Terminal
 ExperimentServer server;    // Object that lets us communicate with MATLAB
 Timer t;                    // Timer to measure elapsed time of experiment

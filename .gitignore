@@ -10,3 +10,6 @@ BUILD
 compile_commands.json
 
 .DS_Store
+ExperimentServer
+MotorShield
+QEI_pmw
