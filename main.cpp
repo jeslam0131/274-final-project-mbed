@@ -38,6 +38,8 @@ QEI encoderD(PD_12, PD_13, NC, 1200, QEI::X4_ENCODING);// MOTOR D ENCODER (no in
 
 MotorShield motorShield(24000); // initialize the motor shield with a period of 12000 clock ticks or ~10kHZ
 
+float timer;
+
 // function to calculate motor voltage according to current control law
 void current_control() {
     float error = 0;
@@ -88,7 +90,7 @@ int main (void) {
             kp = input_params[0];
             ki = input_params[1];
             current_d = input_params[2];
-            time = input_params [3];
+            timer = input_params [3];
 
             // Run current controller at 10kHz
             ControlLoop.attach(&current_control,0.0001);
@@ -107,7 +109,7 @@ int main (void) {
             // motorShield.motorAWrite(DUTY CYCLE, DIRECTION), DIRECTION = 0 is forward, DIRECTION = 1 is backwards.
              
             // Run experiment
-            while (t.read() < time) {
+            while (t.read() < timer) {
                 // Perform impedance control loop logic to calculate desired current
                 current_d = (-10*theta+0.001*velocity)/0.16; // Set commanded current from impedance controller here.
                 
